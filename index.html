@@ -1,0 +1,653 @@
+
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title></title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+    
+    .glass {
+      background: rgba(255, 255, 255, 0.15);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      border: 1px solid rgba(255, 255, 255, 0.18);
+      box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+    }
+    
+    .glass-dark {
+      background: rgba(15, 23, 42, 0.7);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+    }
+    
+    .bg-gradient {
+      background: linear-gradient(135deg, #8B5CF6 0%, #EC4899 100%);
+    }
+
+    /* Enhanced Slider styles */
+    .slider {
+      position: relative;
+      width: 100%;
+      height: 100vh;
+      overflow: hidden;
+    }
+    
+    .slide {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      opacity: 0;
+      transform: scale(1.1);
+      transition: all 1.5s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    
+    .slide.active {
+      opacity: 1;
+      transform: scale(1);
+    }
+    
+    .slide img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    /* Enhanced slide content styling */
+    .slide-content {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 80%;
+      max-width: 800px;
+      text-align: center;
+      color: white;
+      z-index: 15;
+      opacity: 0;
+      transition: all 1s ease;
+      transition-delay: 0.3s;
+    }
+
+    .slide.active .slide-content {
+      opacity: 1;
+    }
+
+    .slide-content h1 {
+      font-size: 3rem;
+      font-weight: 700;
+      margin-bottom: 1rem;
+      text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+    }
+
+    .slide-content p {
+      font-size: 1.25rem;
+      margin-bottom: 2rem;
+      text-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
+    }
+
+    .slider-nav {
+      position: absolute;
+      bottom: 2rem;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      gap: 0.5rem;
+      z-index: 20;
+    }
+
+    .slider-dot {
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      background-color: rgba(255, 255, 255, 0.5);
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .slider-dot.active {
+      background-color: white;
+      transform: scale(1.2);
+    }
+
+    .slider-arrow {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 40px;
+      height: 40px;
+      background-color: rgba(255, 255, 255, 0.2);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      z-index: 20;
+      transition: all 0.3s ease;
+    }
+
+    .slider-arrow:hover {
+      background-color: rgba(255, 255, 255, 0.4);
+    }
+
+    .slider-arrow.prev {
+      left: 2rem;
+    }
+
+    .slider-arrow.next {
+      right: 2rem;
+    }
+
+    .slider-arrow svg {
+      width: 24px;
+      height: 24px;
+      color: white;
+    }
+
+    @media (max-width: 768px) {
+      .slide-content h1 {
+        font-size: 2rem;
+      }
+      .slide-content p {
+        font-size: 1rem;
+      }
+      .slider-arrow {
+        width: 30px;
+        height: 30px;
+      }
+      .slider-arrow.prev {
+        left: 1rem;
+      }
+      .slider-arrow.next {
+        right: 1rem;
+      }
+    }
+  </style>
+</head>
+<body class="font-sans text-gray-800 bg-gray-50">
+
+  <!-- Navigation -->
+  <nav class="fixed w-full z-50 glass-dark text-white">
+    <div class="container mx-auto px-6 py-4">
+      <div class="flex justify-between items-center">
+        <a href="#" class="text-2xl font-bold bg-gradient bg-clip-text text-transparent">Happy Hours</a>
+        <div class="hidden md:flex space-x-8">
+          <a href="#featured" class="hover:text-primary transition">Featured</a>
+          <a href="#collection" class="hover:text-primary transition">Collection</a>
+          <a href="#about" class="hover:text-primary transition">About</a>
+          <a href="#contact" class="hover:text-primary transition">Contact</a>
+        </div>
+        <button class="md:hidden text-white">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+          </svg>
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Hero Section with Enhanced Slides -->
+  <section class="relative h-screen flex items-center justify-center overflow-hidden">
+    <div class="slider">
+      <!-- Slide 1 -->
+      <div class="slide active">
+        <img src="https://png.pngtree.com/background/20210711/original/pngtree-oktoberfest-summer-cool-drink-banner-poster-picture-image_1108597.jpg" alt="Cocktail sketch background" class="w-full h-full object-cover">
+        <div class="absolute inset-0 bg-dark opacity-50"></div>
+        <div class="slide-content">
+          <h1 class="text-red-500">Feel the Rush</h1>
+          <p class="text-white">Lorem ipsum, dolor sit amet consectetur adipisicing elit. Quis delectus totam consequatur sint expedita sapiente voluptatum enim, quo odio neque</p>
+          <a href="#featured" class="inline-block bg-gradient px-8 py-3 rounded-full font-medium hover:opacity-90 transition transform hover:-translate-y-1">
+            Discover More
+          </a>
+        </div>
+      </div>
+      
+      <!-- Slide 2 -->
+      <div class="slide">
+        <img src="https://images.unsplash.com/photo-1551024709-8f23befc6f87?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1925&q=80" alt="Cocktail on table" class="w-full h-full object-cover">
+        <div class="absolute inset-0 bg-dark opacity-50"></div>
+        <div class="slide-content">
+          <h1 class="text-green-400">Premium Mixology</h1>
+          <p>Experience the art of cocktail craftsmanship with our expert mixologists and finest ingredients</p>
+          <a href="#collection" class="inline-block bg-gradient px-8 py-3 rounded-full font-medium hover:opacity-90 transition transform hover:-translate-y-1">
+            View Collection
+          </a>
+        </div>
+      </div>
+      
+      <!-- Slide 3 -->
+      <div class="slide">
+        <img src="back.png" alt="Bar background" class="w-full h-full object-cover">
+        <div class="absolute inset-0 bg-dark opacity-50"></div>
+        <div class="slide-content">
+          <h1 class="text-yellow-300">Crafted to Perfection</h1>
+          <p>Each drink tells a story of passion, precision and premium ingredients sourced from around the world</p>
+          <a href="#about" class="inline-block bg-gradient px-8 py-3 rounded-full font-medium hover:opacity-90 transition transform hover:-translate-y-1">
+            Our Story
+          </a>
+        </div>
+      </div>
+
+      <!-- Navigation Arrows -->
+      <div class="slider-arrow prev">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+        </svg>
+      </div>
+      <div class="slider-arrow next">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+        </svg>
+      </div>
+
+      <!-- Navigation Dots -->
+      <div class="slider-nav">
+        <div class="slider-dot active" data-index="0"></div>
+        <div class="slider-dot" data-index="1"></div>
+        <div class="slider-dot" data-index="2"></div>
+      </div>
+    </div>
+    
+    <!-- Additional content below the slider -->
+    
+  </section>
+
+  <!-- Featured Drinks -->
+  <section id="featured" class="py-20 bg-white">
+    <div class="container mx-auto px-6">
+      <div class="text-center mb-16">
+        <h2 class="text-3xl md:text-4xl font-bold mb-4">Featured Drinks</h2>
+        <p class="text-gray-600 max-w-2xl mx-auto">Our master mixologists have crafted these signature drinks to delight your senses</p>
+      </div>
+      
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
+        <!-- Drink Card 1 -->
+        <div class="rounded-xl overflow-hidden shadow-lg hover:shadow-xl transition group">
+          <div class="relative h-64 overflow-hidden">
+            <img src="https://images.unsplash.com/photo-1514362545857-3bc16c4c7d1b?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80" 
+                 alt="Negroni Cocktail" 
+                 class="w-full h-full object-cover group-hover:scale-110 transition duration-500">
+            <div class="absolute inset-0 bg-gradient-to-t from-dark to-transparent opacity-60"></div>
+            <div class="absolute bottom-4 left-4 text-white">
+              <h3 class="text-xl font-bold">Negroni Twist</h3>
+              <p class="text-sm opacity-90">Gin, Campari, Sweet Vermouth</p>
+            </div>
+          </div>
+          <div class="p-6">
+            <p class="text-gray-600 mb-4">A modern take on the classic Negroni with our house-infused botanicals.</p>
+            <div class="flex justify-between items-center">
+              <span class="font-bold text-primary">Rs.1200</span>
+              <button class="glass px-4 py-2 rounded-full text-sm font-medium bg-green-400 text-black hover:bg-primary hover:text-white transition">
+                View Details
+              </button>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Drink Card 2 -->
+        <div class="rounded-xl overflow-hidden shadow-lg hover:shadow-xl transition group">
+          <div class="relative h-64 overflow-hidden">
+            <img src="https://images.unsplash.com/photo-1560512823-829485b8bf24?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1471&q=80" 
+                 alt="Mojito Cocktail" 
+                 class="w-full h-full object-cover group-hover:scale-110 transition duration-500">
+            <div class="absolute inset-0 bg-gradient-to-t from-dark to-transparent opacity-60"></div>
+            <div class="absolute bottom-4 left-4 text-white">
+              <h3 class="text-xl font-bold">Berry Mojito</h3>
+              <p class="text-sm opacity-90">White Rum, Mint, Berries, Lime</p>
+            </div>
+          </div>
+          <div class="p-6">
+            <p class="text-gray-600 mb-4">Fresh berries and mint muddled to perfection with premium white rum.</p>
+            <div class="flex justify-between items-center">
+              <span class="font-bold text-primary">Rs.1400</span>
+<button class="glass px-4 py-2 rounded-full text-sm font-medium bg-green-400 text-black hover:bg-primary hover:text-white transition">
+                View Details
+              </button>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Drink Card 3 -->
+        <div class="rounded-xl overflow-hidden shadow-lg hover:shadow-xl transition group">
+          <div class="relative h-64 overflow-hidden">
+            <img src="https://images.unsplash.com/photo-1536935338788-846bb9981813?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1372&q=80" 
+                 alt="Whiskey Cocktail" 
+                 class="w-full h-full object-cover group-hover:scale-110 transition duration-500">
+            <div class="absolute inset-0 bg-gradient-to-t from-dark to-transparent opacity-60"></div>
+            <div class="absolute bottom-4 left-4 text-white">
+              <h3 class="text-xl font-bold">Smoky Old Fashioned</h3>
+              <p class="text-sm opacity-90">Bourbon, Bitters, Maple, Smoke</p>
+            </div>
+          </div>
+          <div class="p-6">
+            <p class="text-gray-600 mb-4">A sophisticated twist on the classic with maple syrup and applewood smoke.</p>
+            <div class="flex justify-between items-center">
+              <span class="font-bold text-primary">Rs.1600</span>
+              <button class="glass px-4 py-2 rounded-full text-sm font-medium bg-green-400 text-black hover:bg-primary hover:text-white transition">
+                View Details
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Collection Section with Glass Effect -->
+  <section id="collection" class="py-20 relative overflow-hidden">
+    <div class="absolute inset-0 z-0">
+      <img src="https://images.unsplash.com/photo-1470337458703-46ad1756a187?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1469&q=80" 
+           alt="Bar background" 
+           class="w-full h-full object-cover">
+      <div class="absolute inset-0 bg-dark opacity-70"></div>
+    </div>
+    
+    <div class="container mx-auto px-6 relative z-10">
+      <div class="glass rounded-xl p-10 text-white">
+        <div class="text-center mb-12">
+          <h2 class="text-3xl md:text-4xl font-bold mb-4">Our Premium Collection</h2>
+          <p class="max-w-2xl mx-auto">Discover our extensive collection of spirits and signature cocktails</p>
+        </div>
+        
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+          <div class="text-center p-6 rounded-lg hover:bg-white/10 transition">
+            <div class="w-16 h-16 mx-auto mb-4 rounded-full bg-gradient flex items-center justify-center">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
+              </svg>
+            </div>
+            <h3 class="text-xl font-bold mb-2">Premium Spirits</h3>
+            <p>Curated selection of the finest spirits from around the world</p>
+          </div>
+          
+          <div class="text-center p-6 rounded-lg hover:bg-white/10 transition">
+            <div class="w-16 h-16 mx-auto mb-4 rounded-full bg-gradient flex items-center justify-center">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z" />
+              </svg>
+            </div>
+            <h3 class="text-xl font-bold mb-2">Craft Cocktails</h3>
+            <p>Handcrafted cocktails made with fresh, seasonal ingredients</p>
+          </div>
+          
+          <div class="text-center p-6 rounded-lg hover:bg-white/10 transition">
+            <div class="w-16 h-16 mx-auto mb-4 rounded-full bg-gradient flex items-center justify-center">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 15.546c-.523 0-1.046.151-1.5.454a2.704 2.704 0 01-3 0 2.704 2.704 0 00-3 0 2.704 2.704 0 01-3 0 2.704 2.704 0 00-3 0 2.704 2.704 0 01-3 0 2.701 2.701 0 00-1.5-.454M9 6v2m3-2v2m3-2v2M9 3h.01M12 3h.01M15 3h.01M21 21v-7a2 2 0 00-2-2H5a2 2 0 00-2 2v7h18zm-3-9v-2a2 2 0 00-2-2H8a2 2 0 00-2 2v2h12z" />
+              </svg>
+            </div>
+            <h3 class="text-xl font-bold mb-2">Special Occasions</h3>
+            <p>Custom drink packages for celebrations and events</p>
+          </div>
+          
+          <div class="text-center p-6 rounded-lg hover:bg-white/10 transition">
+            <div class="w-16 h-16 mx-auto mb-4 rounded-full bg-gradient flex items-center justify-center">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v13m0-13V6a2 2 0 112 2h-2zm0 0V5.5A2.5 2.5 0 109.5 8H12zm-7 4h14M5 12a2 2 0 110-4h14a2 2 0 110 4M5 12v7a2 2 0 002 2h10a2 2 0 002-2v-7" />
+              </svg>
+            </div>
+            <h3 class="text-xl font-bold mb-2">Gift Collections</h3>
+            <p>Curated gift sets for the discerning drink enthusiast</p>
+          </div>
+        </div>
+        
+        <div class="text-center mt-12">
+          <a href="#" class="inline-block bg-gradient px-8 py-3 rounded-full font-medium hover:opacity-90 transition transform hover:-translate-y-1">
+            View Full Collection
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- About Section -->
+  <section id="about" class="py-20 bg-white">
+    <div class="container mx-auto px-6">
+      <div class="flex flex-col lg:flex-row items-center gap-12">
+        <div class="lg:w-1/2">
+          <img src="https://images.unsplash.com/photo-1516997121675-4c2d1684aa3e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1374&q=80" 
+               alt="Bartender making cocktail" 
+               class="rounded-xl shadow-lg w-full">
+        </div>
+        <div class="lg:w-1/2">
+          <h2 class="text-3xl md:text-4xl font-bold mb-6">Our Story</h2>
+          <p class="text-gray-600 mb-6">
+            Happy Hours is Founded in 2025, Lorem ipsum dolor sit amet consectetur adipisicing elit. Eos sapiente eveniet suscipit mollitia animi ipsum esse voluptate ratione rem ipsa molestiae saepe, illo illum officiis voluptatem dolore! Sequi, harum at.
+          <p class="text-gray-600 mb-8">
+            Lorem ipsum dolor sit amet consectetur adipisicing elit. Sequi itaque, alias voluptas eveniet nihil officiis, unde commodi mollitia quis, ipsam nulla nesciunt sapiente! Labore voluptatum nulla suscipit eum, pariatur quo?
+          </p>
+          <div class="flex flex-wrap gap-4">
+            <div class="glass px-6 py-4 rounded-lg">
+              <div class="text-2xl font-bold text-primary">5+</div>
+              <div class="text-gray-600">Years of Excellence</div>
+            </div>
+            <div class="glass px-6 py-4 rounded-lg">
+              <div class="text-2xl font-bold text-primary">100+</div>
+              <div class="text-gray-600">Premium Spirits</div>
+            </div>
+            <div class="glass px-6 py-4 rounded-lg">
+              <div class="text-2xl font-bold text-primary">50+</div>
+              <div class="text-gray-600">Signature Cocktails</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Contact Section with Glass Effect -->
+  <section id="contact" class="py-20 relative">
+    <div class="absolute inset-0 z-0">
+      <img src="https://images.unsplash.com/photo-1566417713940-fe7c737a9ef2?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1429&q=80" 
+           alt="Bar counter background" 
+           class="w-full h-full object-cover">
+      <div class="absolute inset-0 bg-dark opacity-80"></div>
+    </div>
+    
+    <div class="container mx-auto px-6 relative z-10">
+      <div class="max-w-4xl mx-auto glass rounded-xl p-10 text-white">
+        <div class="text-center mb-10">
+          <h2 class="text-3xl md:text-4xl font-bold mb-4">Get in Touch</h2>
+          <p>Have questions or want to place an order? Reach out to our team.</p>
+        </div>
+        
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-10">
+          <div>
+            <h3 class="text-xl font-bold mb-4">Contact Information</h3>
+            <div class="space-y-4">
+              <div class="flex items-start">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mr-3 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+                </svg>
+                <div>
+                  <p class="font-medium">Address</p>
+                  <p class="text-sm opacity-80">Kolkata , West Bengal-700xxx</p>
+                </div>
+              </div>
+              
+              <div class="flex items-start">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mr-3 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
+                </svg>
+                <div>
+                  <p class="font-medium">Phone</p>
+                  <p class="text-sm opacity-80">+91xxxxxx</p>
+                </div>
+              </div>
+              
+              <div class="flex items-start">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mr-3 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                </svg>
+                <div>
+                  <p class="font-medium">Email</p>
+                  <p class="text-sm opacity-80">HappyHours@gmail.com</p>
+                </div>
+              </div>
+              
+              <div class="flex items-start">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mr-3 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+                <div>
+                  <p class="font-medium">Hours</p>
+                  <p class="text-sm opacity-80">Mon-Fri: 9AM-6PM<br>Sat-Sun: 10AM-4PM</p>
+                </div>
+              </div>
+            </div>
+            
+            <div class="mt-8">
+              <h3 class="text-xl font-bold mb-4">Follow Us</h3>
+              <div class="flex space-x-4">
+                <a href="#" class="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center hover:bg-primary transition">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-facebook" viewBox="0 0 16 16">
+                    <path d="M16 8.049c0-4.446-3.582-8.05-8-8.05C3.58 0-.002 3.603-.002 8.05c0 4.017 2.926 7.347 6.75 7.951v-5.625h-2.03V8.05H6.75V6.275c0-2.017 1.195-3.131 3.022-3.131.876 0 1.791.157 1.791.157v1.98h-1.009c-.993 0-1.303.621-1.303 1.258v1.51h2.218l-.354 2.326H9.25V16c3.824-.604 6.75-3.934 6.75-7.951z"/>
+                  </svg>
+                </a>
+                <a href="#" class="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center hover:bg-primary transition">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-instagram" viewBox="0 0 16 16">
+                    <path d="M8 0C5.829 0 5.556.01 4.703.048 3.85.088 3.269.222 2.76.42a3.917 3.917 0 0 0-1.417.923A3.927 3.927 0 0 0 .42 2.76C.222 3.268.087 3.85.048 4.7.01 5.555 0 5.827 0 8.001c0 2.172.01 2.444.048 3.297.04.852.174 1.433.372 1.942.205.526.478.972.923 1.417.444.445.89.719 1.416.923.51.198 1.09.333 1.942.372C5.555 15.99 5.827 16 8 16s2.444-.01 3.298-.048c.851-.04 1.434-.174 1.943-.372a3.916 3.916 0 0 0 1.416-.923c.445-.445.718-.891.923-1.417.197-.509.332-1.09.372-1.942C15.99 10.445 16 10.173 16 8s-.01-2.445-.048-3.299c-.04-.851-.175-1.433-.372-1.941a3.926 3.926 0 0 0-.923-1.417A3.911 3.911 0 0 0 13.24.42c-.51-.198-1.092-.333-1.943-.372C10.443.01 10.172 0 7.998 0h.003zm-.717 1.442h.718c2.136 0 2.389.007 3.232.046.78.035 1.204.166 1.486.275.373.145.64.319.92.599.28.28.453.546.598.92.11.281.24.705.275 1.485.039.843.047 1.096.047 3.231s-.008 2.389-.047 3.232c-.035.78-.166 1.203-.275 1.485a2.47 2.47 0 0 1-.599.919c-.28.28-.546.453-.92.598-.28.11-.704.24-1.485.276-.843.038-1.096.047-3.232.047s-2.39-.009-3.233-.047c-.78-.036-1.203-.166-1.485-.276a2.478 2.478 0 0 1-.92-.598 2.48 2.48 0 0 1-.6-.92c-.109-.281-.24-.705-.275-1.485-.038-.843-.046-1.096-.046-3.233 0-2.136.008-2.388.046-3.231.036-.78.166-1.204.276-1.486.145-.373.319-.64.599-.92.28-.28.546-.453.92-.598.282-.11.705-.24 1.485-.276.738-.034 1.024-.044 2.515-.045v.002zm4.988 1.328a.96.96 0 1 0 0 1.92.96.96 0 0 0 0-1.92zm-4.27 1.122a4.109 4.109 0 1 0 0 8.217 4.109 4.109 0 0 0 0-8.217zm0 1.441a2.667 2.667 0 1 1 0 5.334 2.667 2.667 0 0 1 0-5.334z"/>
+                  </svg>
+                </a>
+                <a href="#" class="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center hover:bg-primary transition">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-twitter" viewBox="0 0 16 16">
+                    <path d="M5.026 15c6.038 0 9.341-5.003 9.341-9.334 0-.14 0-.282-.006-.422A6.685 6.685 0 0 0 16 3.542a6.658 6.658 0 0 1-1.889.518 3.301 3.301 0 0 0 1.447-1.817 6.533 6.533 0 0 1-2.087.793A3.286 3.286 0 0 0 7.875 6.03a9.325 9.325 0 0 1-6.767-3.429 3.289 3.289 0 0 0 1.018 4.382A3.323 3.323 0 0 1 .64 6.575v.045a3.288 3.288 0 0 0 2.632 3.218 3.203 3.203 0 0 1-.865.115 3.23 3.23 0 0 1-.614-.057 3.283 3.283 0 0 0 3.067 2.277A6.588 6.588 0 0 1 .78 13.58a6.32 6.32 0 0 1-.78-.045A9.344 9.344 0 0 0 5.026 15z"/>
+                  </svg>
+                </a>
+              </div>
+            </div>
+          </div>
+          
+          <div>
+            <h3 class="text-xl font-bold mb-4">Send a Message</h3>
+            <form class="space-y-4">
+              <div>
+                <label class="block text-sm font-medium mb-1" for="name">Name</label>
+                <input type="text" id="name" class="w-full px-4 py-2 rounded-lg bg-white/10 border border-white/20 focus:outline-none focus:ring-2 focus:ring-primary" placeholder="Your name">
+              </div>
+              
+              <div>
+                <label class="block text-sm font-medium mb-1" for="email">Email</label>
+                <input type="email" id="email" class="w-full px-4 py-2 rounded-lg bg-white/10 border border-white/20 focus:outline-none focus:ring-2 focus:ring-primary" placeholder="Your email">
+              </div>
+              
+              <div>
+                <label class="block text-sm font-medium mb-1" for="subject">Subject</label>
+                <input type="text" id="subject" class="w-full px-4 py-2 rounded-lg bg-white/10 border border-white/20 focus:outline-none focus:ring-2 focus:ring-primary" placeholder="Subject">
+              </div>
+              
+              <div>
+                <label class="block text-sm font-medium mb-1" for="message">Message</label>
+                <textarea id="message" rows="4" class="w-full px-4 py-2 rounded-lg bg-white/10 border border-white/20 focus:outline-none focus:ring-2 focus:ring-primary" placeholder="Your message"></textarea>
+              </div>
+              
+              <button type="submit" class="w-full bg-gradient py-3 rounded-lg font-medium hover:opacity-90 transition">
+                Send Message
+              </button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="py-10 bg-dark text-white">
+    <div class="container mx-auto px-6">
+      <div class="flex flex-col md:flex-row justify-between items-center">
+        <div class="mb-6 md:mb-0">
+          <a href="#" class="text-2xl font-bold bg-gradient bg-clip-text text-transparent">Happy Hours</a>
+          <p class="mt-2 text-sm text-gray-400">Premium drinks for discerning tastes</p>
+        </div>
+        
+        <div class="flex flex-wrap justify-center gap-6">
+          <a href="#" class="text-gray-400 hover:text-primary transition">Privacy Policy</a>
+          <a href="#" class="text-gray-400 hover:text-primary transition">Terms of Service</a>
+          <a href="#" class="text-gray-400 hover:text-primary transition">Shipping</a>
+          <a href="#" class="text-gray-400 hover:text-primary transition">FAQ</a>
+        </div>
+      </div>
+      
+      <div class="border-t border-gray-800 mt-8 pt-8 text-center text-sm text-gray-400">
+        <p>&copy; 2025 Happy Hours Drinks. Made by sambhranta with love🩵.</p>
+      </div>
+    </div>
+  </footer>
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      const slides = document.querySelectorAll('.slide');
+      const dots = document.querySelectorAll('.slider-dot');
+      const prevArrow = document.querySelector('.slider-arrow.prev');
+      const nextArrow = document.querySelector('.slider-arrow.next');
+      let currentSlide = 0;
+      let slideInterval;
+
+      function showSlide(index) {
+        if (index >= slides.length) index = 0;
+        if (index < 0) index = slides.length - 1;
+        
+        // Fade out current slide content first
+        slides[currentSlide].querySelector('.slide-content').style.opacity = '0';
+        
+        setTimeout(() => {
+          slides.forEach(slide => slide.classList.remove('active'));
+          dots.forEach(dot => dot.classList.remove('active'));
+          
+          slides[index].classList.add('active');
+          dots[index].classList.add('active');
+          
+          // Fade in new slide content after transition
+          setTimeout(() => {
+            slides[index].querySelector('.slide-content').style.opacity = '1';
+          }, 300);
+          
+          currentSlide = index;
+        }, 300);
+      }
+
+      function nextSlide() { showSlide(currentSlide + 1); }
+      function prevSlide() { showSlide(currentSlide - 1); }
+
+      function startSlideShow() {
+        slideInterval = setInterval(nextSlide, 5000);
+      }
+
+      function stopSlideShow() {
+        clearInterval(slideInterval);
+      }
+
+      nextArrow.addEventListener('click', () => {
+        stopSlideShow();
+        nextSlide();
+        startSlideShow();
+      });
+
+      prevArrow.addEventListener('click', () => {
+        stopSlideShow();
+        prevSlide();
+        startSlideShow();
+      });
+
+      dots.forEach(dot => {
+        dot.addEventListener('click', function() {
+          stopSlideShow();
+          showSlide(parseInt(this.getAttribute('data-index')));
+          startSlideShow();
+        });
+      });
+
+      const slider = document.querySelector('.slider');
+      slider.addEventListener('mouseenter', stopSlideShow);
+      slider.addEventListener('mouseleave', startSlideShow);
+
+      startSlideShow();
+    });
+  </script>
+</body>
+</html>
