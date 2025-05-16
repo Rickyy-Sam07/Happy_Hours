@@ -9,8 +9,11 @@
 
 ## 📸 Preview
 
-![Happy Hours Preview](https://rickyy-sam07.github.io/Happy_Hours/assets/preview.png)  
-*(Update this screenshot with an actual preview if needed)*
+
+
+https://github.com/user-attachments/assets/23bd5481-9d34-416f-9ebb-60c1698339a9
+
+
 
 ---
 
