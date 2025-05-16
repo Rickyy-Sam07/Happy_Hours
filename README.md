@@ -1,5 +1,4 @@
 
-```markdown
 # 🍹 Happy Hours
 
 **Happy Hours** is a sleek, modern, and responsive drink-themed landing page built entirely using **HTML** and **Tailwind CSS**. Designed with simplicity and elegance in mind, it serves as a perfect template for beverage brands, bars, or events looking to make a bold online presence.
@@ -23,8 +22,6 @@
 ---
 
 ## 📁 Project Structure
-
-```
 
 Happy\_Hours/
 ├── assets/              # Images, fonts, and other assets
@@ -62,8 +59,8 @@ Happy\_Hours/
 Have questions or feedback? Feel free to reach out:
 
 * GitHub: [@rickyy-sam07](https://github.com/rickyy-sam07)
-* LinkedIn: *Add your LinkedIn if you want*
-* Email: *Add your email if you're open to contact*
+* LinkedIn: *https://www.linkedin.com/in/sambhranta-ghosh-995718277/*
+* Email: *sambhranta1123@gmail.com*
 
 ---
 
